@@ -47,6 +47,32 @@ public class ViewPosts extends AppCompatActivity {
                 viewHolder.Image_Title(model.getImage_Title());
 
                 //Click at any row of the list and we will delete that row out of the database
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ViewPosts.this);
+                        builder.setMessage("Delete?").setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        int selectedItems = position;
+                                        mFirebaseAdapter.getRef(selectedItems).removeValue();
+                                        mFirebaseAdapter.notifyItemRemoved(selectedItems);
+                                        recyclerView.invalidate();
+                                        onStart();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.setTitle("Are you sure?");
+                        dialog.show();
+                    }
+                });
             }
         };
         recyclerView.setAdapter(mFirebaseAdapter);
