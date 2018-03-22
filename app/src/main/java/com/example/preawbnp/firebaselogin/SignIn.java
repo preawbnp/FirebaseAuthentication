@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignIn extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private Button signout, viewpost, newpost;
+    private Button signout, viewpost, newpost, location;
     private TextView text;
 
     @Override
@@ -25,6 +25,7 @@ public class SignIn extends AppCompatActivity {
         signout = (Button) findViewById(R.id.signout);
         viewpost = (Button) findViewById(R.id.btn_viewpost);
         newpost = (Button) findViewById(R.id.btn_newpost);
+        location = (Button) findViewById(R.id.btn_location);
 
         if (mAuth.getCurrentUser() == null) {
             finish();
@@ -56,5 +57,11 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), ViewLocation.class));
+            }
+        });
     }
 }
